@@ -5,7 +5,8 @@ import { initializeApp } from 'firebase/app';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyB_IXDU0KTfbFcnx5Oy4N8xzNSWCzvjHqw",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY
+   ,
   authDomain: "immobilliere-18a3b.firebaseapp.com",
   databaseURL: "https://immobilliere-18a3b-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "immobilliere-18a3b",
