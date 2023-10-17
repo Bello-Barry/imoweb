@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: node-service
+    region: oregon
+    plan: free
+    runtime: node
+    
+    repo: https://github.com/Bello-Barry/imoweb 
+    branch: main
+
+    rootDir: mern/server
+    buildCommand: npm install
+    startCommand: npm start
+
+    healthCheckPath: /record
+
+    envVars:
+      - fromGroup: MERN
+      - key: NODE_VERSION
+        value: 16.13.1
+
+  - type: web
+    name: react-frontend
+    runtime: static
+
+    repo: https://github.com/Bello-Barry/imoweb
+    branch: main
+
+    rootDir: mern/client
+    buildCommand: npm run build
+    staticPublishPath: ./build
+
+    routes:
+      - type: redirect
+        source: /*
+        destination: /index.html
+
+    envVars:
+      - fromGroup: MERN
+      - key: NODE_VERSION
+        value: 16.13.1
