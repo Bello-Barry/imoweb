@@ -1,4 +1,35 @@
-import express from 'express';
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: 'https://artistehub.vercel.app',
+    methods: ['GET', 'POST'],
+  },
+});
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('audioComment', (postId, audioData) => {
+    // Broadcast the audio data to all connected clients except the sender
+    socket.broadcast.emit('newAudioComment', postId, audioData);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
+
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+{/*import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRouter from './routes/user.route.js';
@@ -49,3 +80,4 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+*/}
